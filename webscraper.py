@@ -5,24 +5,38 @@ from datetime import date
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 
 #Load environment variables
-#load_dotenv()
+load_dotenv()
 try:
-    #ENV_PASSWORD = os.getenv('PASSWORD')
-    #ENV_FROM = os.getenv('FROM')
-    #ENV_TO = os.getenv('TO')
-    ENV_FROM = os.environ['FROM']
-    ENV_PASSWORD = os.environ['PASSWORD']
-    ENV_TO = os.environ['TO']
+    ENV_PASSWORD = os.getenv('PASSWORD')
+    ENV_FROM = os.getenv('FROM')
+    ENV_TO = os.getenv('TO')
+    #ENV_FROM = os.environ['FROM']
+    #ENV_PASSWORD = os.environ['PASSWORD']
+    #ENV_TO = os.environ['TO']
 except KeyError:
     raise KeyError('Token not available!')
 
+#Calculate invoice total
+def calc_total(price):
+    ER = 370
+    PMD = price/1000
+    Desv = 0.004
+    PT = 1.1507
+    FA = 1.02
+    CG = ER*0.005
+    TP = ER*-0.0958
+    POT = 30*0.229
+    
+    total = round(ER*(PMD+Desv)*PT*FA+CG+TP+POT,2)
+    
+    return total
 
 #Notify price via email
-def send_email(price, msg):
+def send_email(price, msg, total):
     message = MIMEMultipart("alternative")
     message["Subject"] = msg + str(date.today().strftime("%d-%m-%Y"))
     message["From"] = ENV_FROM
@@ -36,6 +50,9 @@ def send_email(price, msg):
             <p>Olá,<br><br>
             O atual preço médio mensal da eletricidade no mercado indexado é de  
             <strong>{price}€/MWh</strong>.
+            <br>
+            Para um consumo médio de 370kW é estimado um total de fatura de 
+            <strong>{total}€</strong>.
             </p>
         </body>
         </html>
@@ -54,14 +71,14 @@ def send_email(price, msg):
 #main
 
 URL = 'https://datahub.ren.pt/pt/eletricidade/mercado/'
-page_text = requests.get(URL, verify=False).text
+page_text = requests.get(URL).text
 soup = BeautifulSoup(page_text, 'lxml')
 data = soup.find_all('span', class_='center-cell')
-price = data[4].text
+price = float(data[4].text)
 
-if float(price) > 200:
+if price > 200:
     msg = 'ATENÇÃO! Preço médio acima de 200€/MWh! - '
 else:
     msg = 'Preço médio do MWh - '
 
-send_email(price, msg)
+send_email(price, msg, calc_total(price))
