@@ -71,7 +71,7 @@ def send_email(price, msg, total):
 #main
 
 URL = 'http://datahub.ren.pt/pt/eletricidade/mercado/'
-page_text = requests.get(URL).text
+page_text = requests.get(URL, verify = False).text
 soup = BeautifulSoup(page_text, 'lxml')
 data = soup.find_all('span', class_='center-cell')
 price = float(data[4].text)
