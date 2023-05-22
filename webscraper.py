@@ -70,9 +70,9 @@ def send_email(price, msg, total):
 
 #main
 
-URL = 'http://datahub.ren.pt/pt/eletricidade/mercado/'
+URL = 'https://datahub.ren.pt/pt/eletricidade/mercado/'
 try:
-    page_text = requests.get(URL, timeout=2).text
+    page_text = requests.get(URL).text
 except requests.exceptions.RequestException:
     raise Exception('Failed to connect to %s' % URL) from None
 soup = BeautifulSoup(page_text, 'lxml')
