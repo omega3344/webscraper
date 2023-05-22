@@ -80,14 +80,14 @@ def send_email(price, msg, total):
         '''
     
     message.attach(MIMEText(html, 'html'))
-
+'''
     #Create secure connection with server and send email
     context = ssl.create_default_context()
     port = 465 #for SSL
     with smtplib.SMTP_SSL('smtp.gmail.com', port, context=context) as server:
         server.login(ENV_FROM, ENV_PASSWORD)
         server.sendmail(ENV_FROM, ENV_TO.split(','), message.as_string())
-
+'''
 
 #main
 
