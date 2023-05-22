@@ -5,18 +5,18 @@ from datetime import date
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 
 #Load environment variables
-load_dotenv()
+#load_dotenv()
 try:
-    ENV_PASSWORD = os.getenv('PASSWORD')
-    ENV_FROM = os.getenv('FROM')
-    ENV_TO = os.getenv('TO')
-    #ENV_FROM = os.environ['FROM']
-    #ENV_PASSWORD = os.environ['PASSWORD']
-    #ENV_TO = os.environ['TO']
+    #ENV_PASSWORD = os.getenv('PASSWORD')
+    #ENV_FROM = os.getenv('FROM')
+    #ENV_TO = os.getenv('TO')
+    ENV_FROM = os.environ['FROM']
+    ENV_PASSWORD = os.environ['PASSWORD']
+    ENV_TO = os.environ['TO']
 except KeyError:
     raise KeyError('Token not available!')
 
