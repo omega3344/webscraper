@@ -3,6 +3,7 @@ import requests
 import os
 from datetime import date
 import smtplib, ssl
+import urllib3
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 #from dotenv import load_dotenv
@@ -19,6 +20,26 @@ try:
     ENV_TO = os.environ['TO']
 except KeyError:
     raise KeyError('Token not available!')
+
+class CustomHttpAdapter (requests.adapters.HTTPAdapter):
+    # "Transport adapter" that allows us to use custom ssl_context.
+
+    def __init__(self, ssl_context=None, **kwargs):
+        self.ssl_context = ssl_context
+        super().__init__(**kwargs)
+
+    def init_poolmanager(self, connections, maxsize, block=False):
+        self.poolmanager = urllib3.poolmanager.PoolManager(
+            num_pools=connections, maxsize=maxsize,
+            block=block, ssl_context=self.ssl_context)
+
+
+def get_legacy_session():
+    ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+    ctx.options |= 0x4  # OP_LEGACY_SERVER_CONNECT
+    session = requests.session()
+    session.mount('https://', CustomHttpAdapter(ctx))
+    return session
 
 #Calculate invoice total
 def calc_total(price):
@@ -71,10 +92,13 @@ def send_email(price, msg, total):
 #main
 
 URL = 'https://datahub.ren.pt/pt/eletricidade/mercado/'
+
 try:
-    page_text = requests.get(URL).text
+    page_text = get_legacy_session().get(URL).text
 except requests.exceptions.RequestException:
     raise Exception('Failed to connect to %s' % URL) from None
+
+
 soup = BeautifulSoup(page_text, 'lxml')
 data = soup.find_all('span', class_='center-cell')
 price = float(data[4].text)
