@@ -1,8 +1,7 @@
 name: run webscraper.py
 
 on:
-  schedule:
-    - cron: '*/10 * * * *' # At...
+  workflow_dispatch:
 
 jobs:
   build:
