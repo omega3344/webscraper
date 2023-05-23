@@ -2,7 +2,7 @@ name: run webscraper.py
 
 on:
   schedule:
-    - cron: '*/10 * * * *' # At...
+    - cron: '*/15 * * * *' # At...
 
 jobs:
   build:
