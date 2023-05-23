@@ -94,7 +94,7 @@ def send_email(price, msg, total):
 URL = 'https://datahub.ren.pt/pt/eletricidade/mercado/'
 
 try:
-    page_text = get_legacy_session().get(URL).text
+    page_text = get_legacy_session().get(URL, timeout=5).text
 except requests.exceptions.RequestException:
     raise Exception('Failed to connect to %s' % URL) from None
 
