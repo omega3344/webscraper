@@ -31,7 +31,7 @@ jobs:
 
       - name: ping webpages
         run:
-          ping google.com
+          ping -c 4 google.com
           
       - name: execute py script # run webscraper.py
         env:
