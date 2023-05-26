@@ -31,7 +31,7 @@ jobs:
 
       - name: ping webpages
         run:
-          ping -c 4 google.com
+          ping -c 4 datahub.ren.pt
           
       - name: execute py script # run webscraper.py
         env:
