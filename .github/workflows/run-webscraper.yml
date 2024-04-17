@@ -4,10 +4,9 @@
 name: run webscraper
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  workflow_dispatch:
+  schedule:
+  - cron: "30 14 * * *"
 
 permissions:
   contents: read
