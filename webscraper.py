@@ -31,16 +31,17 @@ def calc_total(price_m):
     FA = 1.02
     CG = ER*0.005
     TP = ER*TAR
-    POT = 30*0.2997
+    POT = 30*0.3767
+    TTS = 30*0.002217
     AV = 2.85
     DGEG = 0.07
     IEC = ER*0.001
 
     if ER > 100:
-        subtotal6 = 100*(PMD+Desv)*PT*FA+100*0.005+100*TAR+AV
+        subtotal6 = 100*(PMD+Desv)*PT*FA+100*0.005+100*TAR+TTS+AV
         subtotal23 = ((ER-100)*(PMD+Desv)*PT*FA+(ER-100)*0.005+(ER-100)*TAR+POT)
     else:
-        subtotal6 = ER*(PMD+Desv)*PT*FA+ER*0.005+ER*-0.0121+AV
+        subtotal6 = ER*(PMD+Desv)*PT*FA+ER*0.005+ER*-0.0121+AV+TTS
         subtotal23 = POT  
 
     IVA = subtotal6*0.06+(subtotal23+AV+DGEG+IEC)*0.23
