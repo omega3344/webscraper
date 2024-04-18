@@ -4,8 +4,9 @@
 name: run webscraper
 
 on:
+  workflow_dispatch:
   schedule:
-  - cron: '58 14 * * *'
+  - cron: "15 14 * * *"
 
 permissions:
   contents: read
