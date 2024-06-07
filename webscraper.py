@@ -15,9 +15,6 @@ try:
     ENV_PASSWORD = os.getenv('PASSWORD')
     ENV_FROM = os.getenv('FROM')
     ENV_TO = os.getenv('TO')
-    #ENV_FROM = os.environ['FROM']
-    #ENV_PASSWORD = os.environ['PASSWORD']
-    #ENV_TO = os.environ['TO']
 except KeyError:
     raise KeyError('Token not available!')
 
@@ -100,7 +97,7 @@ price_d = float(data[0].text[:-5])
 price_m = float(data[3].text[:-5])
 
 if price_m > 100:
-    msg = 'ATENÇÃO! Preço médio acima de 150€/MWh! - '
+    msg = 'ATENÇÃO! Preço médio acima de 100€/MWh! - '
 else:
     msg = 'Preço médio do MWh - '
 
