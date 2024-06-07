@@ -31,8 +31,8 @@ def calc_total(price_m):
     FA = 1.02
     CG = ER*0.005
     TP = ER*TAR
-    POT = 30*0.3767
-    TTS = 30*0.002217
+    POT = 30*0.4388
+    TTS = 30*0.002893
     AV = 2.85
     DGEG = 0.07
     IEC = ER*0.001
@@ -99,7 +99,7 @@ data = soup.find_all('strong')
 price_d = float(data[0].text[:-5])
 price_m = float(data[3].text[:-5])
 
-if price_m > 150:
+if price_m > 100:
     msg = 'ATENÇÃO! Preço médio acima de 150€/MWh! - '
 else:
     msg = 'Preço médio do MWh - '
