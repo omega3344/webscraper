@@ -22,7 +22,7 @@ except KeyError:
 def calc_total(price_m):
     ER = 300
     PMD = price_m/1000
-    TAR = 0.0365
+    TAR = 0.0625
     Desv = 0.0065
     PT = 1.1581
     FA = 1.02
