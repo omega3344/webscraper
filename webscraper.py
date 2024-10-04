@@ -86,7 +86,7 @@ def send_email(price_d, price_m, msg, total):
 URL = 'https://datahub.ren.pt/pt/eletricidade/mercado/'
 
 try:
-    page_text = requests.get(URL, timeout=10).text
+    page_text = requests.get(URL, timeout=5).text
 except requests.exceptions.RequestException:
     raise Exception('Failed to connect to %s' % URL) from None
 
